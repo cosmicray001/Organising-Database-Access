@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/cosmicray001/Organising-Database-Access/models"
 	"github.com/joho/godotenv"
@@ -12,14 +11,12 @@ import (
 )
 
 func main() {
-	var err error
-	err = godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	// Initialize the sql.DB connection pool and assign it to the models.DB
-	// global variable.
-	models.DB, err = sql.Open("postgres", os.Getenv("DB_URL"))
+	// Use the InitDB function to initialise the global variable.
+	err = models.InitDB(os.Getenv("DB_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}
