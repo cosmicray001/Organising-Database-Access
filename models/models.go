@@ -4,19 +4,6 @@ import (
 	"database/sql"
 )
 
-var db *sql.DB
-
-func InitDB(dataSourceName string) error {
-	var err error
-
-	db, err = sql.Open("postgres", dataSourceName)
-	if err != nil {
-		return err
-	}
-
-	return db.Ping()
-}
-
 type Book struct {
 	Isbn   string
 	Title  string
@@ -24,7 +11,7 @@ type Book struct {
 	Price  float32
 }
 
-func AllBooks() ([]Book, error) {
+func AllBooks(db *sql.DB) ([]Book, error) {
 	rows, err := db.Query("SELECT * FROM books")
 	defer rows.Close()
 	if err != nil {
